@@ -28,6 +28,7 @@ class Hunter():
         self.pay_list = pay_list
         if len(self.pay_list) == itm_nb:
             self.pay_list += [0] * (nb - itm_nb)
+        self.pay_list[0] += reward
         self.reward = reward
 
     def ev(self):
@@ -35,7 +36,7 @@ class Hunter():
     
     def simulate(self):
         # stack size p vs q, p > q, f(p) = 0.5 + 0.5 * f(2p-1) = p
-        rank_order = [-1] * self.nb
+        rank_order = [0] * self.nb
         money = [0] * self.nb
         stack = [1] * self.nb
         survival_set = set([i for i in range(self.nb)])
@@ -80,7 +81,7 @@ class Hunter():
         print(f"0.95 percentile:{np.percentile(pay, 95)}")
         return pay
 
-    def count_distribution(self, times=10000):
+    def count_distribution(self, times=1000000):
         pay = self.distribution(times)
         pay_dict = dict()
         for i in range(len(pay)):
